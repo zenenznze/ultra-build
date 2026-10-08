@@ -1,0 +1,24 @@
+{
+  "should_trigger": [
+    "/skill:ultra-build",
+    "根据自身使用数据自举优化 ultra-build，查 Pi 对话和对应任务生成的项目记录",
+    "当前任务中途调用过 ultra-build；这个对话里有哪些可以优化的，更新到技能里",
+    "ultra-build injected through multi-skill skill-context",
+    "active ultra-build project: continue",
+    "项目已经启用 ultra-build，继续任务",
+    "接管项目，改造工作流并保存持久状态",
+    "恢复任务并推进到人工验收节点"
+  ],
+  "near_neighbor": [
+    {
+      "text": "已启用项目中的视频制作任务，文案通过后继续推进",
+      "expect": "trigger"
+    }
+  ],
+  "should_not_trigger": [
+    "安装并同步所有全局技能",
+    "根据销量数据优化服装店的选品",
+    "翻译这段英文天气预报",
+    "生成一张水彩猫咪插画"
+  ]
+}

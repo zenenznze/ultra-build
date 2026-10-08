@@ -1,0 +1,13 @@
+# Credentials (examples must contain placeholders only)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# Local dependencies, caches, logs and workflow runtime
+node_modules/
+__pycache__/
+*.pyc
+.DS_Store
+*.log
+.ultra-build/runtime/
