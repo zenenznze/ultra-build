@@ -2,7 +2,7 @@
 
 ## What this public package contains
 
-`SKILL.md`, `scripts/entry.mjs`, `scripts/current.mjs`, the self-evolution reference and trigger cases are authored ultra-build implementation. The entry/current scripts use only Node.js built-ins; they do not import WP, build2me, goal-driven or Herdr code. No third-party source trees, binaries, development contracts, task evidence or development Git history are included. MIT in this repository covers authored ultra-build files, not upstream projects.
+`SKILL.md`, `scripts/entry.mjs`, `scripts/current.mjs`, `scripts/runtime.mjs`, `scripts/runtime/kernel.mjs`, the runtime example/evals and references are authored ultra-build implementation. These scripts use only Node.js built-ins; they do not import WP, build2me, goal-driven or Herdr code. No third-party source trees, binaries, development contracts, task evidence or development Git history are included. MIT in this repository covers authored ultra-build files, not upstream projects.
 
 The development workspace retained reference clones and a Herdr skill source copy. **A source copy in a private development workspace is not runtime code reuse in this public package.** The wider prototype framework and its acceptance fixtures are not part of this skill distribution.
 

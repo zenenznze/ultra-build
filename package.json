@@ -1,0 +1,17 @@
+{
+  "name": "ultra-build-runtime",
+  "version": "0.2.0-alpha.1",
+  "private": true,
+  "type": "module",
+  "description": "Trusted-local DAG runtime candidate; independent review pending",
+  "engines": {
+    "node": ">=18"
+  },
+  "bin": {
+    "ultra-build": "scripts/runtime.mjs"
+  },
+  "scripts": {
+    "test": "node --test evals/runtime.test.mjs"
+  },
+  "license": "MIT"
+}

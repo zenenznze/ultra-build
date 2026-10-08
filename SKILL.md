@@ -81,7 +81,7 @@ worker result → 独立 review → submission → 实际执行 acceptance/laws/
 worker done、review PASS、自报 gate PASS、Herdr idle/done 都不能代替合同验证。
 缺少 trusted verifier 时只能报告“验收命令结果/未验证”，不得报告 Contract Done。
 人工门缺失保持 blocked/open；scope/resource 冲突不并发；崩溃保留证据并明确恢复边界。
-当前版本 entry 只负责接管结构与诚实提示，不提供生产级 scheduler/verifier。不得调用本仓库旧 tools/verify.mjs 来证明目标项目完成。
+entry 负责接管与恢复指针。显式选择 v2 合同后，可使用本技能 `scripts/runtime.mjs` 的本地 alpha 运行时执行 run → submission → 独立 review → 实际 verify → 人工门 → 新 frontier；先读 [试用说明](references/runtime-trial.md) 与合同，传入明确的 --project 和项目相对 --graph。它不是生产级 scheduler、安全沙箱或认证审批服务；当前候选仍缺独立语义代码审核，限可丢弃项目副本试验。没有选择 v2 合同时仍保持 prompt-guided，不能把接管标记当作验证完成。不得调用本仓库旧 tools/verify.mjs 来证明目标项目完成。
 先继续现有任务的当前阶段，完成所需审查后停在真实人工节点，不人为给每个小实现增加审核点。
 
 ## 自举与使用反馈

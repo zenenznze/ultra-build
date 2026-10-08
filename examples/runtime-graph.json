@@ -1,0 +1,70 @@
+{
+  "version": 2,
+  "id": "readme-trial",
+  "nodes": [
+    {
+      "id": "hash-readme",
+      "depends_on": [],
+      "inputs": [
+        "README.md"
+      ],
+      "outputs": [
+        "work/runtime-trial/readme-hash.json"
+      ],
+      "write_scope": [
+        "work/runtime-trial/readme-hash.json"
+      ],
+      "run": [
+        "node",
+        "-e",
+        "const fs=require('fs'),c=require('crypto');fs.mkdirSync('work/runtime-trial',{recursive:true});fs.writeFileSync('work/runtime-trial/readme-hash.json',JSON.stringify({source:'README.md',sha256:c.createHash('sha256').update(fs.readFileSync('README.md')).digest('hex')}));"
+      ],
+      "acceptance": [
+        [
+          "node",
+          "-e",
+          "const fs=require('fs'),c=require('crypto'),a=require('assert');a.equal(JSON.parse(fs.readFileSync('work/runtime-trial/readme-hash.json')).sha256,c.createHash('sha256').update(fs.readFileSync('README.md')).digest('hex'));"
+        ]
+      ],
+      "laws": [],
+      "review_required": false,
+      "human_gate": false,
+      "idempotent": true,
+      "max_attempts": 4,
+      "timeout_ms": 10000
+    },
+    {
+      "id": "summarize",
+      "depends_on": [
+        "hash-readme"
+      ],
+      "inputs": [
+        "work/runtime-trial/readme-hash.json"
+      ],
+      "outputs": [
+        "work/runtime-trial/summary.json"
+      ],
+      "write_scope": [
+        "work/runtime-trial/summary.json"
+      ],
+      "run": [
+        "node",
+        "-e",
+        "const fs=require('fs');const x=JSON.parse(fs.readFileSync('work/runtime-trial/readme-hash.json'));fs.writeFileSync('work/runtime-trial/summary.json',JSON.stringify({source:x.source,sha256:x.sha256,algorithm:'sha256'}));"
+      ],
+      "acceptance": [
+        [
+          "node",
+          "-e",
+          "const fs=require('fs'),a=require('assert');const x=JSON.parse(fs.readFileSync('work/runtime-trial/summary.json')),y=JSON.parse(fs.readFileSync('work/runtime-trial/readme-hash.json'));a.equal(x.sha256,y.sha256);a.equal(x.algorithm,'sha256');"
+        ]
+      ],
+      "laws": [],
+      "review_required": false,
+      "human_gate": true,
+      "idempotent": true,
+      "max_attempts": 4,
+      "timeout_ms": 10000
+    }
+  ]
+}

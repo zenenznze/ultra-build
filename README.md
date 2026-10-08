@@ -28,6 +28,17 @@ node /path/to/ultra-build/scripts/entry.mjs --project /path/to/project --task ex
 
 Activation adds a managed block to `AGENTS.md` and project-local `.ultra-build/` contracts, state, approvals and migration evidence. Repeated activation preserves existing tasks. Back up project files before activation. To deactivate, set `.ultra-build/project.json` `active` to `false` and remove only the ULTRA-BUILD managed block from `AGENTS.md`; preserve task evidence and do not run `--apply` again unless reactivation is intended.
 
+## Portable local runtime candidate
+
+`0.2.0-alpha.1` adds a dependency-free command runtime with real DAG execution, submission receipts, acceptance/laws, explicit review import, version-bound human gates and conservative retry/recovery. It does not require an Agent client. This candidate has **not passed independent semantic code review**; evaluate only on a disposable project copy.
+
+```sh
+node /path/to/ultra-build/scripts/runtime.mjs --version
+node /path/to/ultra-build/scripts/runtime.mjs help
+```
+
+Follow [runtime trial instructions](references/runtime-trial.md) and the runnable `examples/runtime-graph.json`. Trial data stays in the target project; code stays in this package. No legacy Done migration or automatic publication.
+
 ## Limits and troubleshooting
 
 This is prompt-guided coordination, not a sandbox or production-ready scheduler/trusted verifier. Worker completion and passing tests do not grant human approval. Current views check explicit artifact hashes, not business quality. Missing independent review or approval remains unresolved.

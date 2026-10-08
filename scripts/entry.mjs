@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {currentView} from './current.mjs';
+import {within,frontier as runtimeFrontier,VERSION as runtimeVersion} from './runtime/kernel.mjs';
 const args=process.argv.slice(2);
 const flag=args.indexOf('--project');
 if(flag<0 || !args[flag+1]) throw new Error('Required: --project <target project root>');
@@ -45,6 +46,17 @@ const projectState=fs.existsSync(config)?JSON.parse(fs.readFileSync(config,'utf8
 const managed=fs.existsSync(rule) && fs.readFileSync(rule,'utf8').includes(block);
 const takeoverReason=!projectState?'not_initialized':projectState.active!==true?'inactive':managed?'ready':!fs.existsSync(rule)||!fs.readFileSync(rule,'utf8').includes(begin)?'managed_block_missing':'managed_block_outdated';
 const contracts=fs.existsSync(path.join(control,'contracts'))?fs.readdirSync(path.join(control,'contracts')).filter(x=>x.endsWith('.json')):[];
+let runtimeView=null;
+let selectedGraph=args.includes('--graph')?args[args.indexOf('--graph')+1]:null;
+if(!selectedGraph && args.includes('--task')) {
+ const taskId=args[args.indexOf('--task')+1];
+ const taskFile=within(project,`.ultra-build/state/${taskId}/task.json`);
+ if(fs.existsSync(taskFile)) selectedGraph=JSON.parse(fs.readFileSync(taskFile,'utf8')).current?.graph??null;
+}
+if(selectedGraph) {
+ const graph=JSON.parse(fs.readFileSync(within(project,selectedGraph),'utf8'));
+ runtimeView=graph.version===2?{source:selectedGraph,...runtimeFrontier(project,graph)}:{source:selectedGraph,status:'legacy_graph_unverified'};
+}
 console.log(JSON.stringify({
  mode:args.includes('--apply')?'applied':'preview',framework,project,
  workflow:'ultra-build',active:fs.existsSync(config)?Boolean(JSON.parse(fs.readFileSync(config,'utf8')).active):false,activation:fs.existsSync(config)?JSON.parse(fs.readFileSync(config,'utf8')).activation:null,legacy_status_authoritative:false,
@@ -53,7 +65,8 @@ console.log(JSON.stringify({
  adoption:{task_id:'legacy-adoption',status:tasks.find(x=>x.task_id==='legacy-adoption')?.reported_status??'preview',receipt:'imports/legacy-scan.json',legacy_done_imported:false},
  takeover:{ready:takeoverReason==='ready',reason:takeoverReason,action:takeoverReason==='ready'?'Read matching task and checkpoint before execution':takeoverReason==='managed_block_outdated'?'Managed rule block needs upgrade; existing activation and tasks preserved':takeoverReason==='inactive'?'Project explicitly inactive; do not reactivate without user instruction':'Activation incomplete: apply project-local takeover before execution'},
  current_view:args.includes('--task')?currentView(project,args[args.indexOf('--task')+1]):null,
- tasks,contracts,frontier:contracts.map(file=>({file,status:'unverified',action:'Read contract and execute its acceptance; no Done inferred'})),
+ runtime:{version:runtimeVersion,scope:'trusted-local alpha, not authenticated or sandboxed',current:runtimeView},
+ tasks,contracts,frontier:runtimeView?.nodes??contracts.map(file=>({file,status:'unverified',action:'Read contract and execute its acceptance; no Done inferred'})),
  next:contracts.length?'Read current task evidence and gates':'Read relevant legacy task evidence; establish current contract before new execution',
  limitations:['Prompt-guided takeover; not a sandbox','No automatic legacy approval migration','Runtime scheduler and trusted verifier not yet production-ready']
 },null,2));
