@@ -2,6 +2,14 @@
 
 This is a portable trusted-local command runtime, separate from the prompt-guided takeover entry. Node.js 18+, no npm dependencies. It runs real local commands; it does not call any model/API or launch Herdr. This candidate has not passed independent semantic code review; evaluate on a disposable branch/project copy, never treat it as production delivery authority.
 
+## Pi-first Agent E2E gate
+
+Pi is the primary Agent target. Direct Node CLI calls prove runtime integration only. They do not establish that a Pi Agent loaded the skill or followed its workflow. Stage acceptance requires an actual Pi process with the explicit skill, successful tool events and verified on-disk activation/contracts/artifacts; then a second Pi process resumes the same session without duplicate attempts and still respects the human gate. Independent Pi review is a separate release gate, not a substitute for worker E2E.
+
+JSON mode can exit 0 despite assistant error/aborted messages. Inspect message_end, successful tool_execution_end, model identity, agent_settled and filesystem evidence; do not accept process exit or Agent text alone. Use /login for the selected Pi provider when OAuth is invalid; do not inspect credential stores or switch to another Agent as an E2E substitute.
+
+Current candidate has not passed this Pi gate. Only disposable local evaluation is appropriate.
+
 ## First trial in an existing project
 
 Choose a project that contains README.md. Commands below create only the declared trial files and project-local runtime state. Read the example contract before running code. If its task ID or output paths already exist, use another ID/path instead of overwriting another task.
