@@ -11,3 +11,10 @@ __pycache__/
 .DS_Store
 *.log
 .ultra-build/runtime/
+dist/
+build/
+.pytest_cache/
+*.bundle
+*.bak
+*.bak-*
+core.[0-9]*
