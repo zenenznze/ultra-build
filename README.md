@@ -39,7 +39,7 @@ node /path/to/ultra-build/scripts/runtime.mjs help
 
 Follow [runtime trial instructions](references/runtime-trial.md) and the runnable `examples/runtime-graph.json`. Trial data stays in the target project; code stays in this package. No legacy Done migration or automatic publication.
 
-**Pi is the primary Agent integration target.** CLI/filesystem checks are integration tests, not Pi Agent E2E. A trial-stage acceptance requires a real Pi session loading this skill, executing the task through tools, producing independently checked artifacts, and a second Pi process resuming without duplicate work or fabricated human approval. That gate has not passed.
+**Pi is the primary Agent integration target.** CLI/filesystem checks are integration tests, not Pi Agent E2E. A trial-stage acceptance requires a real Pi session loading this skill, executing the task through tools, producing independently checked artifacts, and a second Pi process resuming without duplicate work or fabricated human approval. Independent release review remains a separate gate; successful worker E2E is not release approval.
 
 ## Limits and troubleshooting
 

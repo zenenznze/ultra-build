@@ -6,9 +6,9 @@ This is a portable trusted-local command runtime, separate from the prompt-guide
 
 Pi is the primary Agent target. Direct Node CLI calls prove runtime integration only. They do not establish that a Pi Agent loaded the skill or followed its workflow. Stage acceptance requires an actual Pi process with the explicit skill, successful tool events and verified on-disk activation/contracts/artifacts; then a second Pi process resumes the same session without duplicate attempts and still respects the human gate. Independent Pi review is a separate release gate, not a substitute for worker E2E.
 
-JSON mode can exit 0 despite assistant error/aborted messages. Inspect message_end, successful tool_execution_end, model identity, agent_settled and filesystem evidence; do not accept process exit or Agent text alone. Use /login for the selected Pi provider when OAuth is invalid; do not inspect credential stores or switch to another Agent as an E2E substitute.
+JSON mode can exit 0 despite assistant error/aborted messages. Inspect message_end, successful tool_execution_end, model identity, agent_settled and filesystem evidence; do not accept process exit or Agent text alone. Reuse the user's existing Pi defaults, configured account/login extensions and runtime environment. Do not force a provider/model, disable login extensions with --no-extensions, or replace plugin-selected accounts with raw credential checks. Only diagnose a genuine login failure after exercising that normal chain; never inspect credential stores or switch to another Agent as an E2E substitute.
 
-Current candidate has not passed this Pi gate. Only disposable local evaluation is appropriate.
+The development candidate has passed a real Pi worker plus same-session second-process resume using the user's existing default login. Artifacts and DAG state were read back independently, attempts stayed unchanged and human approval remained pending. This bounded README task is not general production readiness or independent code-review approval; only disposable local evaluation is appropriate.
 
 ## First trial in an existing project
 
